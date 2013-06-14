@@ -6,9 +6,10 @@
   var Parser;
   try {
     // For embedded use within other projects
-    Parser = require('pbjs/parser/parser');
+    Parser = require('pbjs-compiler/parser/parser');
   } catch (err) {
-    // For standalone installations of pbjs
+    // For standalone installations of pbjs, we expect to be running at:
+    //  pbjs-compiler/node_modules/pegjs/pegjs/
     Parser = require('../../../parser/parser');
   }
 

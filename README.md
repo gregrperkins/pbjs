@@ -2,7 +2,7 @@
 
 Creates closure goog.proto2.Message .pb.js source code from .proto files.
 
-## Maturity
+### Maturity
 
 Supports type checking, though it uses the js number type for 64bit numbers.
 
