@@ -1,0 +1,523 @@
+{namespace pbjs}
+
+
+/****************************************************************************
+ * @param protoFile
+ * @param message
+ *****************************************************************************/
+{template .test}
+{if not $message}NO MESSAGE{/if}
+{$protoFile.path}
+{/template}
+/*****************************************************************************/
+
+
+/******************************************************************************
+ * @param inputPath
+ * @param provides
+ *****************************************************************************/
+{template .message}
+{literal}/**
+ * @fileoverview pbjs generated Protocol Buffer code for
+ *
+ *  file:   {/literal}{$inputPath}{literal}
+ *  classes:{/literal}{call .descriptionComment data="all" /}{literal}
+ *
+ * Generated from
+ *  TODO(gregp): git hash & repo name
+ */
+
+goog.require('goog.proto2.Message');
+
+{/literal}
+{call .requires data="all" /}
+{call .provides data="all" /}
+{foreach $provide in $provides}
+  {if $provide.type == 'message'}
+    {call .constructor data="$provide.item" /}
+    {foreach $field in $provide.item.fields}
+      {call .fieldBlock data="$field" /}
+    {/foreach}
+    {foreach $group in $provide.item.groups}
+      {call .fieldBlock data="$group" /}
+    {/foreach}
+  {elseif $provide.type == 'enum'}
+    {call .enum data="$provide.item" /}
+  {elseif $provide.type == 'group'}
+    {call .constructor data="$provide.item" /}
+    {foreach $field in $provide.item.fields}
+      {call .fieldBlock data="$field" /}
+    {/foreach}
+  {/if}
+{/foreach}
+{call .descriptors data="all" /}
+{/template}
+/*****************************************************************************/
+
+
+
+/******************************************************************************
+ * Determines which accessor set to write for a given field
+ * @param jsPath_
+ * @param fullName
+ *****************************************************************************/
+{template .constructor}
+{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}
+{literal}
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * Message {/literal}{$fullName}{literal}.
+ * @constructor
+ * @extends {goog.proto2.Message}
+ */
+///////////////////////////////////////////////////////////////////////////////
+{/literal}{$jsPath_}{literal} = function() {
+  goog.proto2.Message.apply(this);
+  this.initDefaults(false);
+};
+goog.inherits({/literal}{$jsPath_}{literal}, goog.proto2.Message);
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Overrides {@link goog.proto2.Message#clone} to specify its exact return type.
+ * @return {!{/literal}{$jsPath_}{literal}} The cloned message.
+ * @override
+ */
+{/literal}{$jsPath_}{literal}.prototype.clone;
+{/literal}
+{/template}
+/*****************************************************************************/
+
+
+
+/******************************************************************************
+ * Determines which accessor set to write for a given field
+ * @param label
+ *****************************************************************************/
+{template .fieldBlock}
+{if $label == 'repeated'}
+  {call .repeatedFieldBlock data="all" /}
+{else}
+  {call .optionalFieldBlock data="all" /}
+{/if}
+{/template}
+/*****************************************************************************/
+
+
+
+/******************************************************************************
+ * Writes all the accessors for a given repeated field
+ * @param jsDocType
+ * @param name
+ * @param tag
+ * @param containingType
+ *****************************************************************************/
+{template .optionalFieldBlock}
+{literal}
+// ----------------------------------------------------------------------------
+//  BEGIN FIELD {/literal}{$containingType}::{$name}{literal}
+// ----------------------------------------------------------------------------
+
+/**
+ * Gets the value of the {/literal}
+ {$name}
+ {literal} field.
+ * @return {?{/literal}
+ {$jsDocType}
+ {literal}} The value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.getRaw_{/literal}{$name}{literal} = function() {
+  return /** @type {?{/literal}
+  {$jsDocType}
+  {literal}} */ (this.get$Value({/literal}
+    {$tag}
+  {literal}));
+};
+
+
+/**
+ * Gets the value of the {/literal}
+ {$name}
+ {literal} field or the default value if not set.
+ * @return {{/literal}
+ {$jsDocType}
+ {literal}} The value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.get_{/literal}{$name}{literal} = function() {
+  return /** @type {{/literal}
+  {$jsDocType}
+  {literal}} */ (this.get$ValueOrDefault({/literal}
+    {$tag}
+  {literal}));
+};
+
+
+/**
+ * Sets the value of the {/literal}
+ {$name}
+ {literal} field.
+ * @param {{/literal}
+ {$jsDocType}
+ {literal}} value The value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.set_{/literal}{$name}{literal} = function(value) {
+  this.set$Value({/literal}
+    {$tag}
+  {literal}, value);
+};
+
+
+/**
+ * @return {boolean} Whether the {/literal}
+ {$name}
+ {literal} field has a value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.has_{/literal}{$name}{literal} = function() {
+  return this.has$Value({/literal}
+    {$tag}
+  {literal});
+};
+
+
+/**
+ * @return {number} The number of values in the {/literal}
+ {$name}
+ {literal} field.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.count_{/literal}{$name}{literal} = function() {
+  return this.count$Values({/literal}
+    {$tag}
+  {literal});
+};
+
+
+/**
+ * Clears the values in the {/literal}
+ {$name}
+ {literal} field.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.clear_{/literal}{$name}{literal} = function() {
+  this.clear$Field({/literal}
+    {$tag}
+  {literal});
+};
+{/literal}
+{/template}
+/*****************************************************************************/
+
+
+
+
+
+
+/******************************************************************************
+ * Writes all the accessors for a given repeated field
+ * @param jsDocType
+ * @param name
+ * @param tag
+ * @param containingType
+ *****************************************************************************/
+{template .repeatedFieldBlock}
+{literal}
+// ----------------------------------------------------------------------------
+//  BEGIN FIELD {/literal}{$containingType}::{$name}{literal}
+// ----------------------------------------------------------------------------
+
+/**
+ * Gets the value of the {/literal}{$name}{literal} field at the index given.
+ * @param {number} index The index to lookup.
+ * @return {?{/literal}
+ {$jsDocType}
+ {literal}} The value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.getRaw_{/literal}{$name}{literal} = function(index) {
+  return /** @type {?{/literal}
+  {$jsDocType}
+  {literal}} */ (this.get$Value({/literal}
+  {$tag}
+  {literal}, index));
+};
+
+
+/**
+ * Gets the value of the {/literal}{$name}{literal} field at the index given or the default value if not set.
+ * @param {number} index The index to lookup.
+ * @return {{/literal}
+ {$jsDocType}
+ {literal}} The value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.get_{/literal}{$name}{literal} = function(index) {
+  return /** @type {{/literal}
+  {$jsDocType}
+  {literal}} */ (this.get$ValueOrDefault({/literal}
+  {$tag}
+  {literal}, index));
+};
+
+
+/**
+ * Adds a value to the {/literal}{$name}{literal} field.
+ * @param {{/literal}
+ {$jsDocType}
+ {literal}} value The value to add.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.add_{/literal}{$name}{literal} = function(value) {
+  this.add$Value({/literal}
+  {$tag}
+  {literal}, value);
+};
+
+
+/**
+ * Returns the array of values in the {/literal}{$name}{literal} field.
+ * @return {!Array.<{/literal}
+ {$jsDocType}
+ {literal}>} The values in the field.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.arrayOf_{/literal}{$name}{literal} = function() {
+  return /** @type {!Array.<{/literal}
+  {$jsDocType}
+  {literal}>} */ (this.array$Values({/literal}
+  {$tag}
+  {literal}));
+};
+
+
+/**
+ * @return {boolean} Whether the {/literal}{$name}{literal} field has a value.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.has_{/literal}{$name}{literal} = function() {
+  return this.has$Value({/literal}
+  {$tag}
+  {literal});
+};
+
+
+/**
+ * @return {number} The number of values in the {/literal}{$name}{literal} field.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.count_{/literal}{$name}{literal} = function() {
+  return this.count$Values({/literal}
+  {$tag}
+  {literal});
+};
+
+
+/**
+ * Clears the values in the {/literal}{$name}{literal} field.
+ */
+{/literal}
+{$containingType}
+{literal}.prototype.clear_{/literal}{$name}{literal} = function() {
+  this.clear$Field({/literal}
+  {$tag}
+  {literal});
+};
+
+
+{/literal}
+{/template}
+/*****************************************************************************/
+
+
+
+
+
+/******************************************************************************
+ * @param provides
+ *****************************************************************************/
+{template .descriptionComment}
+{foreach $provide in $provides}
+{literal}
+ *      {/literal}{$provide.item.name} => {$provide.item.jsPath_}
+{/foreach}
+{/template}
+/*****************************************************************************/
+
+
+
+
+/******************************************************************************
+ * @param provides
+ *****************************************************************************/
+{template .provides}
+{foreach $provide in $provides}
+goog.provide('{$provide.name}');{\n}
+{/foreach}
+{/template}
+/*****************************************************************************/
+
+
+
+/******************************************************************************
+ * @param requires
+ *****************************************************************************/
+{template .requires}
+{foreach $require in $requires}
+goog.require('{$require.name}');{\n}
+{/foreach}
+{/template}
+/*****************************************************************************/
+
+
+
+
+/******************************************************************************
+ * @param provides
+ *****************************************************************************/
+{template .descriptors}
+{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{literal}
+// ----------------------------------------------------------------------------
+// Descriptor Metadata
+// ----------------------------------------------------------------------------
+{/literal}
+{foreach $provide in $provides}
+  {call .descriptor data="$provide.item" /}
+{/foreach}
+{/template}
+/*****************************************************************************/
+
+
+
+
+
+/******************************************************************************
+ * @param jsPath_
+ * @param fields
+ *****************************************************************************/
+{template .descriptor}
+{if $fields}
+{literal}
+goog.proto2.Message.set$Metadata({/literal}{$jsPath_}{literal}, {
+  {/literal}
+    {call .messageDescriptorType data="all" /}
+    {foreach $field in $fields}
+      /*,{$field.tag}: "{$field.name}"*/
+      {call .fieldDescriptorType data="$field" /}
+    {/foreach}
+  {literal}
+});
+{/literal}
+{/if}
+{/template}
+/*****************************************************************************/
+
+
+
+
+
+/******************************************************************************
+ * @param containingType
+ * @param fullName
+ * @param name
+ *****************************************************************************/
+{template .messageDescriptorType}
+{literal}0: {
+    name: '{/literal}{$name}{literal}',
+    {/literal}
+    {if $containingType}
+      containingType: {$containingType},{\n}{sp}{sp}{sp}{sp}
+    {/if}
+    {literal}fullName: '{/literal}{$fullName}{literal}'
+  }{/literal}
+{/template}
+/*****************************************************************************/
+
+
+
+
+
+/******************************************************************************
+ * @param tag - Tag number
+ * @param name - Field name
+ * @param fieldType - eg goog.proto2.Message.FieldType.DOUBLE
+ * @param jsType - eg Number
+ * @param hasJsDefault_
+ * @param jsDefault_
+ * @param label
+ *****************************************************************************/
+{template .fieldDescriptorType}
+{literal},
+  {/literal}{$tag}{literal}: {
+    name: '{/literal}{$name}{literal}',
+    {/literal}{if $hasJsDefault_}
+      defaultValue: {$jsDefault_|noAutoescape},
+      {\n}{sp}{sp}{sp}{sp}
+    {/if}
+    {if $label == 'repeated'}
+      repeated: true,
+      {\n}{sp}{sp}{sp}{sp}
+    {/if}
+    fieldType: {$fieldType}{literal},
+    type: {/literal}{$jsType}{literal}
+  }{/literal}
+{/template}
+/*****************************************************************************/
+
+
+
+
+
+/******************************************************************************
+ * @param name
+ * @param entries
+ * @param jsPath_
+ *****************************************************************************/
+{template .enum}
+{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}{\n}
+{literal}
+// ----------------------------------------------------------------------------
+/**
+ * Enumeration {/literal}{$name}{literal}.
+ * @enum {number}
+ */
+{/literal}{$jsPath_} = {lb}
+{foreach $entry in $entries}
+  {call .enumEntry data="$entry" /}
+  {if not isLast($entry)},{/if}
+{/foreach}
+{literal}
+};
+// ----------------------------------------------------------------------------
+{/literal}
+{/template}
+/*****************************************************************************/
+
+
+
+
+/******************************************************************************
+ * @param name
+ * @param tag
+ *****************************************************************************/
+{template .enumEntry}
+{\n}{sp}{sp}{$name}: {$tag}
+{/template}
+/*****************************************************************************/
+
+

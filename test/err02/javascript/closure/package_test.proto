@@ -1,0 +1,26 @@
+// Copyright 2009 Google Inc.  All rights reserved.
+// A proto file used for unit testing the ECMAScript
+// compiler and framework that has a package.
+
+syntax = "proto2";
+
+import "javascript/closure/test.proto";
+
+package javascript.closure.test;
+
+message TestPackageTypes {
+  optional int32 optional_int32    =  1;
+  optional TestAllTypes other_all = 2;
+}
+
+message TestAllTypes {
+    message Another {
+        optional Here.TestAllTypes poof = 1;
+    }
+
+    message Here {
+        message TestAllTypes {
+            optional int32 piss = 1;
+        }
+    }
+}

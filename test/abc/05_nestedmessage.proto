@@ -1,0 +1,15 @@
+// This is a relatively mild mannered protobuf file
+
+message OuterMessage {
+    optional string top = 1;
+    repeated InnerMessage meat = 2;
+    optional string bottom = 3;
+
+    message InnerMessage {
+        required Meat beef = 1;
+
+        message Meat {
+            optional string type = 1;
+        }
+    }
+}

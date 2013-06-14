@@ -1,0 +1,15 @@
+/**
+ * @fileoverview This is an annotation that should be retained on the file.
+ */
+
+/**
+ * This is an annotation that should be retained on the Dinner message.
+ * @type {Model}
+ */
+message FordT {
+    optional Color color = 1;
+
+    enum Color {
+        BLACK=1;
+    }
+}

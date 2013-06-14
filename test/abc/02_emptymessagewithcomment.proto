@@ -1,0 +1,16 @@
+// nothing here
+
+
+
+///////////////////////message////////
+
+// message NotAMessage {
+//
+// }
+
+message EmptyMessageWithComment {
+    // nothing here either
+}
+
+// Another EmptyMessageWithComment
+///

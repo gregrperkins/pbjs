@@ -1,0 +1,9 @@
+// This is a relatively mild mannered protobuf file
+
+message MultiMessageOne {
+    optional string someData = 1;
+}
+
+message MultiMessageTwo {
+    optional string moreData = 1;
+}

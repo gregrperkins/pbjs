@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+var path = require("path");
+var argv = process.argv.slice();
+
+var arg, base;
+do {arg = argv.shift();} while (arg !== __filename)
+
+var cmd = argv.shift();
+
+if (cmd == 'build') {
+    require('../cli').build(argv, process.exit);
+} else {
+    _usage();
+    process.exit(1);
+}
+
+function _usage () {
+    console.error('Usage: ./' + path.basename(__filename) + ' build ' +
+        '--input <root> --output <root> [...options]\n' +
+        '\t--force:\tremove the output directory beforehand');
+}

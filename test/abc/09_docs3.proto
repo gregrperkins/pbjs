@@ -1,0 +1,7 @@
+/**
+ * This is an annotation that should be retained on the Happy message.
+ * @type {Model}
+ */
+message Happy {
+    optional bool inTears = 1;
+}

@@ -1,0 +1,44 @@
+
+// guess this might be handy
+option java_package = "com.pbjs.test.abc";
+
+/**
+ * Might as well test some more option types while we're at it.
+ */
+option (custom_option_1) = -100;
+option (custom_option_1b) = -0100;
+option (custom_option_1c) = 00;
+option (custom_option_1d) = 0;
+option (custom_option_1f) = -0x10b0;
+option (custom_option_1g) = 0x93f0;
+option (custom_option_1h) = 10450;
+option (custom_option_2) = 12.3456789;
+option (custom_option_3) = 1.234567890123456789;
+option (custom_option_4) = "Hello, \"World\"";
+option (custom_option_5) = "Hello\0World";
+option (custom_option_6) = "Hello\u1234World";
+
+/** @root "google" */
+import "google/protobuf/descriptor.proto";
+/** @root "core" */
+import "core/somewhere/models.proto";
+/** @root "core" */
+import "core/somewhere/else/models.proto";
+
+// but I'm not sure what the difference is against this one...
+package pbjs.test.abc;
+
+/* some more comments */
+message FileDirectives {
+    required string id = 1 [default = "okay"];
+    optional core.somewhere.else.NowhereModel desire = 2;
+    // optional . doom = 3; // TODO(gregp): ensure failure here
+
+    enum NestedEnum {
+        ONE = 1;
+        TWO = 2;
+        EX = 9001;
+    }
+
+    optional NestedEnum enumWithDefault = 5 [default = NestedEnum.ONE];
+}

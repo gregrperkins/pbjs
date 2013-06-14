@@ -1,0 +1,53 @@
+/**
+ * This is an annotation that should be retained on the Dinner message.
+ * @type {Model}
+ */
+message Dinner {
+    // These are pretty self explanatory
+    optional string sauce = 1;
+    /* This is also not a jsdoc */
+    repeated MeatType meat = 2;
+
+    /**
+     * Meat type refers to what you're eating.
+     */
+    enum MeatType {
+        /**
+         * This is my preference. Also a bloomin' onion would be good.
+         * @see http://outbacksteakhouse.com
+         */
+        STEAK = 1;
+
+        /**
+         * Mahi mahi goes well with steak, but most places won't serve them
+         *  together. I would hope that we normalize whitespace here when
+         *  spanning multiple lines
+         */
+        MAHI_MAHI = 2;
+
+        /**
+         * Chicken is pretty much boring
+         */
+        CHICKEN = 3;
+
+        /**
+         * Perhaps the best calamari on the west coast, around the turn of the
+         *  millenium, was at the colorful Monterey London Bridge Pub.
+         * Buttery, smooth on the inside, crisp batter. They changed their
+         *  recipe around 2007, and it hasn't been the same since.
+         */
+        CALAMARI = 4;
+    }
+}
+
+/**
+ * This is what might happen if you get hungry...
+ * @type {Command}
+ */
+message DinnerCmd {
+    /**
+     * Essentially, I'm saying I own you.
+     * {@link core.dom}
+     */
+    optional bool sudo = 1;
+}

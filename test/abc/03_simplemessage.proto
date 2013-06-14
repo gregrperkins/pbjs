@@ -1,0 +1,9 @@
+// This is a relatively mild mannered protobuf file
+
+message SimpleMessage {
+    optional string someData = 1;
+    optional string someMoreData=2;
+    // fluffy
+    optional int32 someInt = 3;
+    // buffy
+}

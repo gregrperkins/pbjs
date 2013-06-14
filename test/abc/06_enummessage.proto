@@ -1,0 +1,11 @@
+message Dinner {
+    optional string sauce = 1;
+    repeated MeatType meat = 2;
+
+    enum MeatType {
+        STEAK = 1;
+        MAHI_MAHI = 2;
+        CHICKEN = 3;
+        CALAMARI = 4;
+    }
+}

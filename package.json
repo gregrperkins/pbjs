@@ -1,0 +1,28 @@
+{
+  "name": "pbjs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Protobuf to javascript goog.proto2.Message compiler.",
+  "dependencies": {
+    "besync": "0.0.1",
+    "funct": "0.0.2",
+    "glob": "3.1.13",
+    "mkdirp": "0.3.4",
+    "pegjs": "0.7.0",
+    "rimraf": "2.1.4",
+    "soyset": "0.0.2"
+  },
+  "devDependencies": {
+    "async": "*",
+    "JSON2": "0.1.0",
+    "mocha": "~1.8.1",
+    "shoulda": "0.0.1",
+    "supervisor": "~0.5.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec --timeout 10000",
+    "tdd": "./node_modules/.bin/supervisor --extensions proto,pegjs,js,soy --quiet --no-restart-on exit --exec npm test",
+    "clean": "rm -rf .soy_js_cache"
+  },
+  "main": "./pbjs/pb"
+}
