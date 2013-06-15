@@ -1,6 +1,6 @@
 {
   "name": "pbjs-compiler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Protobuf to javascript goog.proto2.Message compiler.",
   "dependencies": {
     "besync": "0.0.1",
