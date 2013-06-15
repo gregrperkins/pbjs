@@ -269,7 +269,9 @@ MESSAGE_OPTION_KEY
   = BUILTIN_MESSAGE_OPTION_KEYWORD / CUSTOM_OPTION
 
 BUILTIN_MESSAGE_OPTION_KEYWORD
-  = "message_set_wire_format"
+  = "message_set_wire_format" /
+    "default" / 
+    "packed"
   / "no_standard_descriptor_accessor"
   ////
 
@@ -293,7 +295,8 @@ GROUP
 ENUM
   = _ "enum"
     _ name:IDENTIFIER
-    _ "{" items:(ENUM_ENTRY*) "}"
+    _ "{" items:(ENUM_ENTRY*) "}" 
+    _ ";"?
     _
   {
     return new Enum({
