@@ -52,8 +52,18 @@ var _enforceMessage = function (opts, message) {
   message.enums.forEach(_enforce.bind(this, opts));
 };
 
+var SUPPRESS_ENFORCE_JSDOC = /@suppress *\{.*enforceJsDoc.*\}/g
+
 var _enforceFile = function (opts, protoFile) {
   _checkAnnotations(opts, 'file', protoFile);
+  
+  // If this file suppresses enforcement, we're done.
+  var suppressed = protoFile.annotations.some(function (annotation) {
+      return SUPPRESS_ENFORCE_JSDOC.test(annotation.data);
+  });
+  if (suppressed) {
+      return;
+  }
   protoFile.messages.forEach(_enforce.bind(this, opts));
 };
 
