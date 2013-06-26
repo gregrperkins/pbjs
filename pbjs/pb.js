@@ -16,7 +16,7 @@ var PBJS = function(opts) {
   var opts = this.opts = opts || {};
 
   var templateRoot = opts.templateRoot ||
-    path.resolve(path.dirname(__filename), '..', 'templates');
+    path.resolve(path.dirname(__filename), '..', 'templates/closure_internal');
   this.templateRoot = templateRoot;
   this.outputRoot = path.resolve(opts.outputRoot || 'build');
 
@@ -171,8 +171,6 @@ PBJS.Task._setJsDefault = function (field, type) {
   } else {
     field.jsDefault_ = JSON.stringify(dfault.val);
   }
-
-  // console.log(field.jsDefault_);
 };
 
 PBJS.Task._setGroupTypes = function (group) {
@@ -383,11 +381,31 @@ PBJS.prototype._writeTaskMapFiles = function (taskMap, cb) {
   var files = Object.keys(taskMap);
   var tasks = files.map(function(x){return taskMap[x];});
   var returnFn = function(err) {
-    cb(err, tasks.map(function (task) {
-      return task.outputPath;
-    }));
+    cb(err, taskMap);
   }
   besync.forEach(tasks, this._writeTaskFile, returnFn, this);
+};
+
+/**
+ * Writes to an export file - a file with goog.requires for all requested proto
+ * models. Useful for being an entry point for post-build compilation.
+ * @param {Object.<string, PBJS.Task>} taskMap
+ * @param {function()} cb
+ */
+PBJS.prototype._writeExportFile = function (taskMap, cb) {
+  var singleRequireFile = '', key, messages
+  for (key in taskMap) {
+    messages = taskMap[key].protoFile.messages;
+    messages.forEach(function(msg) {
+      singleRequireFile += 'goog.require(\'' + msg.fullName + '\');\n';
+    });
+  }
+  var filePath = this.outputRoot + '/deps.js';
+  fs.writeFile(filePath, singleRequireFile, 'utf8',
+    function() {
+      cli.log('[PBJS] Building... ' + filePath);
+      cb(null, taskMap);
+    });
 };
 
 PBJS.prototype.build = function (inputRoot, cb) {
@@ -395,13 +413,18 @@ PBJS.prototype.build = function (inputRoot, cb) {
     funct.injector(inputRoot),
     this._buildTaskMap,
     this._writeTaskMapFiles,
+    this._writeExportFile,
     this._cleanup
   ], this);
 };
 
-PBJS.prototype._cleanup = function (outputPaths, cb) {
+PBJS.prototype._cleanup = function (taskMap, cb) {
+  var files = Object.keys(taskMap);
+  var tasks = files.map(function(x){return taskMap[x];});
   var doneFn = function(err) {
-    cb(err, outputPaths);
+    cb(err, tasks.map(function (task) {
+      return task.outputPath;
+    }));
   };
   if (this.opts.cleanup) {
     rimraf(this.soyset.options.tmpDir, doneFn);
