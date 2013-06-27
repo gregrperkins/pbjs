@@ -4,6 +4,9 @@
   "description": "Protobuf to javascript goog.proto2.Message compiler.",
   "dependencies": {
     "besync": "0.0.1",
+    "calcdeps": "0.2.0",
+    "closurecompiler": "1.1.2",
+    "closure-library": "1.43629075.2",
     "funct": "0.0.2",
     "glob": "3.1.13",
     "mkdirp": "0.3.4",

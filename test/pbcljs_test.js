@@ -21,7 +21,7 @@ describe('pbcljs', function () {
 
   it('is', function () {
     should.exist(this.pbjs);
-    this.pbjs.templateRoot.should.endWith('templates');
+    this.pbjs.templateRoot.should.endWith('templates/closure_internal');
     this.pbjs.outputRoot.should.equal(path.resolve('./.pb_js_test'));
   });
 
@@ -123,7 +123,6 @@ describe('pbcljs', function () {
   it('builds expected task map', function (done) {
     this.pbjs._buildTaskMap(this.root, function (err, taskMap) {
       if (err) return done(err);
-      // console.log(Object.keys(taskMap));
       taskMap.should.matchSet(expectedTasks);
       done(err);
     });
@@ -131,7 +130,7 @@ describe('pbcljs', function () {
 
   var expectedFiles = {
     '.pb_js_test/proto2/test.pb.js$': 1,
-    '.pb_js_test/someprotopackage/package_test.pb.js$': 1,
+    '.pb_js_test/someprotopackage/package_test.pb.js$': 1
   };
 
   it('writes the expected files', function (done) {
@@ -151,8 +150,6 @@ describe('pbcljs', function () {
       function (fileList, next) {
         fileList.should.have.length(2);
         fileList.should.matchSet(expectedFiles);
-
-        // console.log(fileList);
 
         // filter gives no error arg, so have to prepend
         var noErrors = funct.partial(next, null);
@@ -190,6 +187,21 @@ describe('pbcljs', function () {
         // console.log(dataMap);
         dataMap.should.matchSet(expectedFiles);
         next();
+      },
+      this.pbjs.clean,
+    ], this.pbjs);
+  });
+
+  it('deps are generated', function (done) {
+    return besync.waterfall(done, [
+      this.pbjs.clean,
+      funct.injector(this.root),
+      this.pbjs.build,
+      function(dataMap, next) {
+        fs.exists('.pb_js_test/deps.js', function(exists) {
+          exists.should.equal(true);
+          next();
+        });
       },
       this.pbjs.clean,
     ], this.pbjs);

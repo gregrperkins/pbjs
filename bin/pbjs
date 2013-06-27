@@ -9,7 +9,7 @@ do {arg = argv.shift();} while (arg !== __filename)
 var cmd = argv.shift();
 
 if (cmd == 'build') {
-    require('../cli').build(argv, process.exit);
+    require('../pbjs/cli.js').build(argv, process.exit);
 } else {
     _usage();
     process.exit(1);
