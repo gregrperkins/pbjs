@@ -78,7 +78,7 @@ var packageSingleFile = function(options, files, callback) {
     var ccOpts = {
         compilation_level: 'ADVANCED_OPTIMIZATIONS',
         generate_exports: true,
-        output_wrapper:  "\"function() {%output%}\""
+        output_wrapper:  "\"(function() {%output%})();\""
     };
 
     console.log('[PBJS] Packaging... ' + name);
